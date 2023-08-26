@@ -1,14 +1,11 @@
 <script setup>
 import ProductList from "./product-list.vue";
 
-const props = defineProps(['productList']);
-
 </script>
 <template>
   <main >
     <h2>Тут что-то от главной страницы</h2>
-    <ProductList
-     v-bind:productList="props.productList">
+    <ProductList>
     </ProductList>
   </main>
 </template>

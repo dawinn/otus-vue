@@ -1,21 +1,8 @@
 <script setup>
-import { ref, onMounted } from 'vue';
-
-import Header from '@/components/main-header.vue';
-import Footer from '@/components/main-footer.vue';
-import MainMenu from '@/components/main-menu.vue';
-import MainPage from '@/components/main-page.vue';
-const productList = ref([]);
-
-onMounted(() => {
-  fetch(`https://fakestoreapi.com/products`)
-    .then(response => response.json())
-    .then(json => {
-      productList.value = json;
-    });
-})
-
-
+  import Header from '@/components/main-header.vue';
+  import Footer from '@/components/main-footer.vue';
+  import MainMenu from '@/components/main-menu.vue';
+  import MainPage from '@/components/main-page.vue';
 </script>
 
 
@@ -23,7 +10,6 @@ onMounted(() => {
   <Header></Header>
   <MainMenu></MainMenu>
   <MainPage
-      v-bind:productList="productList"
   > </MainPage>
   <Footer></Footer>
 
