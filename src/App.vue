@@ -1,21 +1,20 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+  import Header from '@/components/main-header.vue';
+  import Footer from '@/components/main-footer.vue';
+  import MainMenu from '@/components/main-menu.vue';
+  import MainPage from '@/components/main-page.vue';
 </script>
 
+
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
+  <Header></Header>
+  <MainMenu></MainMenu>
+  <MainPage
+  > </MainPage>
+  <Footer></Footer>
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
 </template>
+
 
 <style scoped>
 header {
@@ -30,13 +29,11 @@ header {
 @media (min-width: 1024px) {
   header {
     display: flex;
+    justify-content: center;
     place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
   }
 
-  .logo {
-    margin: 0 2rem 0 0;
-  }
+
 
   header .wrapper {
     display: flex;
