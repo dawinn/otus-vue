@@ -2,6 +2,7 @@
   import ProductItem from './product-item.vue';
   import SearchForm from './search-form.vue';
   import OrderForm from "./order-form.vue";
+  import AddItemForm from "./add-item-form.vue";
 
   import { fetchProducts } from '/src/services/fetchers';
   import {
@@ -16,6 +17,7 @@
   const cartProductList = ref(new Map());
   const filters = ref({});
 
+  const switchForms = ref('fOrderForm');
 
   const filterApply = () => {
     let {fTitle, fPriceMin, fPriceMax } = filters.value;
@@ -26,7 +28,6 @@
     }
 
     if (fPriceMin || fPriceMax) {
-
       if (fPriceMax && fPriceMin && fPriceMax < fPriceMin) {
         fPriceMax += fPriceMin;
         fPriceMin = fPriceMax - fPriceMin;
@@ -65,6 +66,7 @@
               >
   </SearchForm>
 
+
   <ul class="mdc-list">
     <ProductItem v-for="product of productList"
                  :product="product"
@@ -79,11 +81,29 @@
       </div>
     </ProductItem>
   </ul>
-  <OrderForm :cartList="cartList"
-             :cartProductList="cartProductList"
-  >
+  <div class="switchForms">
+    <label>Оформить заказ
+      <input type="radio" value="fOrderForm" v-model="switchForms"/>
+    </label>
+    <label>Добавить товар в каталог
+      <input type="radio" value="fAddForm" v-model="switchForms"/>
+    </label>
+  </div>
+  <div v-if="switchForms == 'fOrderForm'">
+    <OrderForm :cartList="cartList"
+               :cartProductList="cartProductList"
+    >
 
-  </OrderForm>
+    </OrderForm>
+
+  </div>
+  <div v-if="switchForms == 'fAddForm'">
+    <AddItemForm :productList="productList"
+    >
+
+    </AddItemForm>
+  </div>
+
 </template>
 
 <style scoped>
