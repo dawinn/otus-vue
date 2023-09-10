@@ -30,7 +30,7 @@
       if (fPriceMax && fPriceMin && fPriceMax < fPriceMin) {
         fPriceMax += fPriceMin;
         fPriceMin = fPriceMax - fPriceMin;
-        fPriceMax -= fPriceMax;
+        fPriceMax -= fPriceMin;
       }
 
       if (fPriceMin) {
