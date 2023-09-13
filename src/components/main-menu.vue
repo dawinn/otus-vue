@@ -12,5 +12,7 @@
 </template>
 
 <style scoped>
-
+menu {
+  min-width: 200px;
+}
 </style>

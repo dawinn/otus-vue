@@ -1,10 +1,11 @@
 <script setup>
-  defineProps({
+defineProps({
     product: {
       type: Object,
       required: true
     }
   });
+
 </script>
 
 
@@ -13,12 +14,12 @@
     <div class="mdc-card__content">
       <h3>{{  product.title }}</h3>
       <div class="mdc-card__image">
-        <img v-bind:src="product.image" width="120"/>
+        <img :src="product.image" width="120"/>
       </div>
       <p>{{ product.description }}</p>
     </div>
-    <div>картинка: {{ product.image }}</div>
-    <div>Цена: {{ product.price }}</div>
+    <div>Цена: <bold>{{ product.price }}</bold></div>
+    <slot></slot>
   </li>
 </template>
 
@@ -26,6 +27,7 @@
 .mdc-list-item {
   list-style: none;
   margin: 0;
+  overflow: hidden;
 }
 
 .mdc-card {
@@ -40,7 +42,10 @@
 }
 
 .mdc-card__image {
-  transform: translate(calc(50% - 120px), 10px);
+  transform: translate(calc(50% - 60px), 10px);
+}
+bold {
+  font-weight: bolder;
 }
 
 </style>
