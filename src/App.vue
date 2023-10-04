@@ -1,18 +1,26 @@
 <script setup>
-  import Header from '@/components/main-header.vue';
-  import Footer from '@/components/main-footer.vue';
-  import MainMenu from '@/components/main-menu.vue';
-  import MainPage from '@/components/main-page.vue';
+  import Header from '@/viewports/partials/main-header.vue';
+  import Footer from '@/viewports/partials/main-footer.vue';
+  import MainMenu from '@/viewports/partials/main-menu.vue';
+
+  import cart from '@/components/cart/cart-data';
+  import {reactive, ref} from "vue";
+  const apiCart = cart.setup();
+  const username = reactive(localStorage.username);
 </script>
 
 
 <template>
-  <Header></Header>
-  <MainMenu></MainMenu>
-  <MainPage
-  > </MainPage>
-  <Footer></Footer>
-
+  <v-app>
+    <Header :cart="apiCart"
+            v-model:username="username"></Header>
+    <v-main>
+      <MainMenu></MainMenu>
+      <RouterView :cart="apiCart"
+                  v-model:username="username"/>
+    </v-main>
+    <Footer></Footer>
+  </v-app>
 </template>
 
 
@@ -21,24 +29,15 @@ header {
   line-height: 1.5;
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
 @media (min-width: 1024px) {
   header {
     display: flex;
     justify-content: center;
     place-items: center;
   }
-
-
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
+  main {
+    min-width: 1300px;
+    padding-top: calc(var(--v-layout-top) + 1rem);
   }
 }
 </style>

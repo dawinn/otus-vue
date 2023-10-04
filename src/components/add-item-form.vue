@@ -59,7 +59,7 @@ const onSubmit = (values) => {
         <Field name="category"/>
         <span>{{ errors.category }}</span>
       </div>
-      <button type="submit" >Отправить заказ</button>
+      <button type="submit">Отправить заказ</button>
     </Form>
   </div>
 

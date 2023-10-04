@@ -31,59 +31,51 @@ const handleClickFilterKind = () => {
 </script>
 
 <template>
-<div class="search-form">
-  <h4>Не хотите листать всё подряд? </h4>
+  <v-container  class="bg-surface-variant mb-6">
+    <v-row
+        align="center"
+>
 
-  <div class="wrapper">
-    <span>Поиск Вам поможет:</span>
-    <div v-if="filterKind == 'fPriceChanged'">
-      <input type="number"  v-model.lazy.number="filters.fPriceMin" placeholder="минимальная" min="0"/>
-      <input type="number"  v-model.lazy.number="filters.fPriceMax" placeholder="максимальна" min="0"/>
-    </div>
-    <div v-if="filterKind == 'fTitleChanged'">
-      <input id="fTitle" type="text" v-model.lazy.trim="filters.fTitle" placeholder="или по его кусочку"/>
-    </div>
-
-    <div class="filterGroup">
-      <label for="fByPrice">по цене:
-        <input type="radio" id="fByPrice" value="fPriceChanged" v-model="filterKind" @change="handleClickFilterKind" />
-      </label>
-      <label for="fByTitle">по названию:
-        <input type="radio" id="fByTitle" value="fTitleChanged" v-model="filterKind" @change="handleClickFilterKind" />
-      </label>
-    </div>
-
-
-  </div>
-</div>
+      <v-col cols="3">
+        <span>Не хотите листать всё подряд? <br/>Поиск Вам поможет:</span>
+      </v-col>
+      <v-col v-if="filterKind == 'fPriceChanged'" class="el-inline">
+        <v-text-field clearable
+                      type="number"
+                      variant="outlined"
+                      v-model.lazy.number="filters.fPriceMin"
+                      placeholder="минимальная"
+                      min="0"></v-text-field>
+        <v-spacer></v-spacer>
+        <v-text-field clearable
+                      type="number"
+                      variant="outlined"
+                      v-model.lazy.number="filters.fPriceMax"
+                      placeholder="максимальна"
+                      min="0"></v-text-field>
+      </v-col>
+      <v-col v-if="filterKind == 'fTitleChanged'">
+        <v-text-field clearable
+                      variant="outlined"
+                      v-model.lazy.trim="filters.fTitle"
+                      placeholder="или по его кусочку"></v-text-field>
+      </v-col>
+      <v-col cols="3">
+        <v-radio-group inline
+                       v-model="filterKind"
+                       @change="handleClickFilterKind">
+          <v-radio label="по цене" value="fPriceChanged" true-icon> </v-radio>
+          <v-radio label="по названию"  value="fTitleChanged"> </v-radio>
+        </v-radio-group>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <style scoped>
-
-.search-form {
-  border: 1px solid #adacac;
-  border-radius: 4px;
-  padding: 8px;
-  margin: 4px;
-}
-
-.wrapper {
-  display: grid;
-  grid-template-columns: 1fr 2fr 1fr;
-}
-
-input [type="text"]{
-  width: 100px;
-  margin-right: 16px;
-}
-
-.filterGroup {
-
-}
-
-input [type="radio"]{
-  width: 24px;
-  height: 24px;
-  margin-right: 16px;
+.el-inline {
+  display: flex;
 }
 </style>
+
+
