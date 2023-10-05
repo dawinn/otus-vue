@@ -1,10 +1,6 @@
 <script setup>
 import Cart from '@/components/cart/cart-vidget.vue';
-defineProps({
-  cart:  Object,
-  username: String
-});
-
+import Profile from '@/viewports/partials/auth.vue';
 </script>
 <template>
   <v-app-bar app color="teal-lighten-3"
@@ -19,7 +15,8 @@ defineProps({
 
 
     </v-app-bar-title>
-    <Cart :cart="cart"></Cart>
+    <Cart></Cart>
+    <Profile/>
   </v-app-bar>
 
 </template>

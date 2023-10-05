@@ -8,6 +8,9 @@ import OrderForm from '@/viewports/order-page.vue';
 import ProductItem from '@/viewports/item-info.vue';
 import CartPage from '@/components/cart/cart-form.vue';
 
+import { storeToRefs } from 'pinia';
+import useUser from '@/store/user';
+
 const routes = [
     {
         path: '/',
@@ -31,6 +34,11 @@ const routes = [
         meta: { requiresAuth: false }
     },
     {
+        path: '/catalogue',
+        name: 'Catalogue',
+        component: MainPage,
+    },
+    {
         path: '/catalogue/:id',
         name: 'ItemInfo',
         component: ProductItem,
@@ -47,11 +55,7 @@ const routes = [
         name: '404',
         component: FailPage
     }
-]
-
-const isAuthenticated = () => {
-    return !!localStorage.username;
-};
+];
 
 const router = createRouter({
     history: createWebHistory(),
@@ -59,8 +63,9 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
+    const { isAdmin } = storeToRefs(useUser());
     if (to.matched.some(record => record.meta.requiresAuth)) {
-        if (!isAuthenticated()) {
+        if (!isAdmin.value) {
             next({
                 path: '/login',
                 query: { redirect: to.path },

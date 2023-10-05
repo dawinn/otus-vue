@@ -1,9 +1,8 @@
 <script setup>
 import {ref} from "vue";
-import {  defineRule, useForm, useField } from 'vee-validate';
-import Products from '@/components/products/products-data';
-
-const apiProducts = ref(Products.setup());
+import { defineRule, useForm, useField } from 'vee-validate';
+import useProducts from '@/store/products';
+const { addProduct } = useProducts();
 
 defineRule('required', value => {
   if (!value || !value.length) {
@@ -28,7 +27,7 @@ const description = useField('description', validationSchema.description);
 const category = useField('category', validationSchema.category);
 
 const onSubmit = handleSubmit((values) => {
-  if (apiProducts.value.create(values)) {
+  if (addProduct(values)) {
     showSusscess.value = true;
   }
 });

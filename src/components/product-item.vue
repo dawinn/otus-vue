@@ -1,39 +1,33 @@
 <script setup>
-import {ref} from "vue";
+import { computed } from 'vue';
+import useCart from '@/store/cart';
+
+const { pushToCart, inCartCount } = useCart();
 
 const props = defineProps({
     product: {
       type: Object,
       required: true
     },
-    cart: {
-      type: Object
-    }
+    detail: Boolean
   });
 
-const apiCart = ref(props.cart);
-
-const itemInCart = ref(apiCart.value.getOne(props.product.id)?.count);
-
-const pushCart = () => {
-  apiCart.value.push(props.product);
-  itemInCart.value = apiCart.value.getOne(props.product.id)?.count;
-};
-
+const itemInCart = computed(() => inCartCount(props.product.id));
 </script>
 
 <template>
     <v-card>
       <v-img :src="product.image" height="240"/>
       <v-card-title>
-        <router-link :to="{name: 'ItemInfo', params: {id: product.id}}">{{  product.title }}</router-link>
+        <router-link v-if="!detail" :to="{name: 'ItemInfo', params: {id: product.id}}">{{  product.title }}</router-link>
+        <span v-else>{{  product.title }}</span>
       </v-card-title>
       <v-card-text>
         <p>{{ product.description }}</p>
         <p>Цена: <bold>{{ product.price }}</bold></p>
       </v-card-text>
       <v-card-actions>
-        <v-btn @click="pushCart">Добавить в корзину</v-btn>
+        <v-btn @click="pushToCart(product)">Добавить в корзину</v-btn>
         <div v-if="itemInCart">
           <p>Товаров в корзине: {{itemInCart}}</p>
         </div>

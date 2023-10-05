@@ -1,20 +1,19 @@
 <script setup>
-import { ref } from "vue";
+import { ref } from 'vue';
+import useProducts from '@/store/products';
 import ProductItem from '@/components/product-item.vue';
-import Products from '@/components/products/products-data';
+const { getProduct } = useProducts();
 
 const props = defineProps({
-  cart:  Object,
   id: Number
 });
-const apiProducts = ref(Products.setup());
-const product = ref(apiProducts.value.findOne(props.id));
+const product = ref(getProduct(props.id));
 </script>
 
 <template>
 <div class="fullInfo">
   <ProductItem :product="product"
-               :cart="cart">
+               :detail="true">
   </ProductItem>
 </div>
 

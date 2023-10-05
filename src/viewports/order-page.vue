@@ -1,7 +1,15 @@
 <script setup>
-import { ref } from "vue";
+import {onMounted, ref} from 'vue';
+import useCart from '@/store/cart';
+import { storeToRefs } from 'pinia';
 import { defineRule, useForm, useField } from 'vee-validate';
 import { dispatchOrder } from '/src/services/sender';
+
+const { totalSum } = storeToRefs(useCart());
+const { cartList } = useCart();
+
+import useUser from '@/store/user';
+const { username, userAddress } = storeToRefs(useUser());
 
 defineRule('required', value => {
   if (!value || !value.length) {
@@ -32,26 +40,19 @@ const fio = useField('fio', validationSchema.fio);
 const email = useField('email', validationSchema.email);
 const address = useField('address');
 const consent = useField('consent', validationSchema.consent);
-const total = () => {
-  return props.cart.findAll().reduce((sum, elem) => (sum + elem.price * elem.count), 0);
-
-}
-
-const props = defineProps({
-  cartProductList: {
-    type: Map
-  },
-  cartList: {
-    type: Set
-  },
-  cart: {
-    type: Object
-  }
-});
 
 const onSubmit = handleSubmit((values) => {
-  values.list = props.cart.findAll();
+  values.list = cartList();
   showSusscess.value = dispatchOrder(values);
+});
+
+onMounted(() => {
+  if (userAddress.value) {
+    fio.setValue(username.value);
+  }
+  if (userAddress.value) {
+    address.setValue(userAddress.value);
+  }
 });
 </script>
 
@@ -63,7 +64,7 @@ const onSubmit = handleSubmit((values) => {
         <router-link to="/">На главную?</router-link>
       </div>
       <div v-else>
-        <h3>Оформить заказ на сумму {{ total() }}</h3>
+        <h3>Оформить заказ на сумму {{ totalSum }}</h3>
         <v-form @submit="onSubmit">
           <div class="input-row">
             <v-text-field type="text"

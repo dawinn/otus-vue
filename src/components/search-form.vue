@@ -1,13 +1,13 @@
 <script setup>
-import { computed, ref } from "vue";
+import {computed, ref} from "vue";
 
 const props = defineProps({
   modelValue: {
     type: Object,
     default: () => ({
-      fPriceMin: '',
-      fPriceMax: '',
-      fTitle: ''
+      priceMin: '',
+      priceMax: '',
+      title: ''
     })
   }
 });
@@ -43,21 +43,21 @@ const handleClickFilterKind = () => {
         <v-text-field clearable
                       type="number"
                       variant="outlined"
-                      v-model.lazy.number="filters.fPriceMin"
+                      v-model.lazy.number="filters.priceMin"
                       placeholder="минимальная"
                       min="0"></v-text-field>
         <v-spacer></v-spacer>
         <v-text-field clearable
                       type="number"
                       variant="outlined"
-                      v-model.lazy.number="filters.fPriceMax"
+                      v-model.lazy.number="filters.priceMax"
                       placeholder="максимальна"
                       min="0"></v-text-field>
       </v-col>
       <v-col v-if="filterKind == 'fTitleChanged'">
         <v-text-field clearable
                       variant="outlined"
-                      v-model.lazy.trim="filters.fTitle"
+                      v-model.lazy.trim="filters.title"
                       placeholder="или по его кусочку"></v-text-field>
       </v-col>
       <v-col cols="3">

@@ -1,18 +1,13 @@
 <script setup>
-import {reactive} from "vue";
+import useCart from '@/store/cart';
+import { storeToRefs } from 'pinia'
 
-const props = defineProps({
-  cart: {
-    type: Object
-  }
-});
-
-const cartSize = () => reactive(props.cart.getSize());
+const { cartSize } = storeToRefs(useCart());
 </script>
 
 <template>
-  <div v-if="cartSize()">
-    <router-link :to="{ name: 'Cart' }"><span>Позиций в корзине: {{ cartSize() }}</span></router-link>
+  <div v-if="cartSize">
+    <router-link :to="{ name: 'Cart' }"><span>Позиций в корзине: {{ cartSize }}</span></router-link>
   </div>
   <div v-else>
     Корзина пуста

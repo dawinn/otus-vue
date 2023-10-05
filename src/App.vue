@@ -2,22 +2,15 @@
   import Header from '@/viewports/partials/main-header.vue';
   import Footer from '@/viewports/partials/main-footer.vue';
   import MainMenu from '@/viewports/partials/main-menu.vue';
-
-  import cart from '@/components/cart/cart-data';
-  import {reactive, ref} from "vue";
-  const apiCart = cart.setup();
-  const username = reactive(localStorage.username);
 </script>
 
 
 <template>
   <v-app>
-    <Header :cart="apiCart"
-            v-model:username="username"></Header>
+    <Header></Header>
     <v-main>
       <MainMenu></MainMenu>
-      <RouterView :cart="apiCart"
-                  v-model:username="username"/>
+      <RouterView/>
     </v-main>
     <Footer></Footer>
   </v-app>

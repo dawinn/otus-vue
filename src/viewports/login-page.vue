@@ -1,6 +1,10 @@
 <script setup>
 import { useForm, useField } from 'vee-validate';
-import router from "../router";
+import {ref} from 'vue';
+
+import router from "@/router";
+import useUser from '@/store/user';
+const { login: loginAction } = useUser();
 
 const validationSchema = {
   login: (value) => (value ? true : 'Введите имя!'),
@@ -12,17 +16,20 @@ const { handleSubmit } = useForm({
 
 const login = useField('login', validationSchema.login);
 const pass = useField('pass', validationSchema.pass);
+const errorMessage = ref('');
 
 
 const onSubmit = handleSubmit((values) => {
   const {login, pass} = values;
-  localStorage.username = login;
-  localStorage.pass = pass;
-  const { redirect } = router.currentRoute.value.query;
-  if (redirect) {
-    router.push({path: redirect});
+  if (loginAction(login, pass)) {
+    const { redirect } = router.currentRoute.value.query;
+    if (redirect) {
+      router.push({path: redirect});
+    } else {
+      router.push({name: 'Home'});
+    }
   } else {
-    router.push({name: 'Home'});
+    errorMessage.value = 'Не верные логин или пароль. Попробуйте снова';
   }
 });
 
@@ -51,7 +58,7 @@ const onSubmit = handleSubmit((values) => {
         </div>
         <v-btn type="submit" block class="mt-2">Submit</v-btn>
       </v-form>
-
+      <ErrorMessage class="error-message">{{errorMessage}}</ErrorMessage>
     </v-sheet>
 
   </v-container>
@@ -59,7 +66,8 @@ const onSubmit = handleSubmit((values) => {
 
 <style scoped>
 
-.input-row span {
+.input-row span,
+.error-message{
   font-size: small;
   color: darkred;
   padding-left: 8px;
