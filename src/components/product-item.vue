@@ -1,49 +1,41 @@
 <script setup>
-defineProps({
+import { computed } from 'vue';
+import useCart from '@/store/cart';
+
+const { pushToCart, inCartCount } = useCart();
+
+const props = defineProps({
     product: {
       type: Object,
       required: true
-    }
+    },
+    detail: Boolean
   });
 
+const itemInCart = computed(() => inCartCount(props.product.id));
 </script>
 
-
 <template>
-  <li class="mdc-list-item mdc-card">
-    <div class="mdc-card__content">
-      <h3>{{  product.title }}</h3>
-      <div class="mdc-card__image">
-        <img :src="product.image" width="120"/>
-      </div>
-      <p>{{ product.description }}</p>
-    </div>
-    <div>Цена: <bold>{{ product.price }}</bold></div>
-    <slot></slot>
-  </li>
+    <v-card>
+      <v-img :src="product.image" height="240"/>
+      <v-card-title>
+        <router-link v-if="!detail" :to="{name: 'ItemInfo', params: {id: product.id}}">{{  product.title }}</router-link>
+        <span v-else>{{  product.title }}</span>
+      </v-card-title>
+      <v-card-text>
+        <p>{{ product.description }}</p>
+        <p>Цена: <bold>{{ product.price }}</bold></p>
+      </v-card-text>
+      <v-card-actions>
+        <v-btn @click="pushToCart(product)">Добавить в корзину</v-btn>
+        <div v-if="itemInCart">
+          <p>Товаров в корзине: {{itemInCart}}</p>
+        </div>
+      </v-card-actions>
+    </v-card>
 </template>
 
 <style scoped>
-.mdc-list-item {
-  list-style: none;
-  margin: 0;
-  overflow: hidden;
-}
-
-.mdc-card {
-  border: 1px solid #777777;
-  border-radius: 4px;
-  padding: 8px;
-  margin: 4px;
-}
-
-.mdc-card:hover {
-  background-color: #f8f8f8;
-}
-
-.mdc-card__image {
-  transform: translate(calc(50% - 60px), 10px);
-}
 bold {
   font-weight: bolder;
 }

@@ -7,6 +7,7 @@ const dispatchOrder = async (data) => {
         .then(response => response)
         .catch(() => {
             console.error('Произошла проблема при загрузке данных');
+            return false;
         });
 
 
