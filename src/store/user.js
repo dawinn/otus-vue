@@ -11,7 +11,7 @@ const useUser = defineStore('user', () => {
     const userAddress = computed(() => user.value?.address);
 
     const login = (userLogin, userPass) => {
-        const userDB = usersMockDB.filter((acc) => userLogin.toLowerCase() === acc.login && userPass.toLowerCase() === acc.pass);
+        const userDB = usersMockDB.filter((acc) => userLogin.toLowerCase() === acc.login && userPass === acc.pass);
         if (userDB.length) {
             user.value = userDB[0];
             return true;

@@ -16,7 +16,7 @@ const itemInCart = computed(() => inCartCount(props.product.id));
 </script>
 
 <template>
-    <v-card>
+    <v-card data-testid="v-card">
       <v-img :src="product.image" height="240"/>
       <v-card-title>
         <router-link v-if="!detail" :to="{name: 'ItemInfo', params: {id: product.id}}">{{  product.title }}</router-link>
