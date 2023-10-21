@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia';
-import { onMounted, ref } from 'vue';
+import {computed, onMounted, ref} from 'vue';
 import { fetchProducts } from '@/services/fetchers';
-
 
 const useProducts = defineStore('products', () => {
     const getLocalStoreData = () => {
@@ -39,7 +38,7 @@ const useProducts = defineStore('products', () => {
     };
 
     const addProduct = (item) => {
-        const newItem = Object.assign({id: products.value.size + 1, ...item});
+        const newItem = {id: products.value.size + 1, ...item};
         products.value.set(newItem.id, newItem);
         save();
         return newItem;
@@ -47,44 +46,16 @@ const useProducts = defineStore('products', () => {
 
     const getProduct = (id) => (products.value.get(id));
 
-    const productList = () => {
+    const productList = computed(() => {
         let array = [];
-        for (let item of products.value) {
-            const [id, obj] = item;
-            array.push({id, ...obj})
+        for (let item of products.value.values()) {
+            array.push(item)
         }
 
-        return array;
-    };
-
-    const getFilter = ({title, priceMin, priceMax}) => {
-        let array = productList();
-
-        if (title && title.length > 3) {
-            array = array.filter((item) => item.title.toUpperCase().includes(title.toUpperCase()));
-        }
-
-        if (priceMin || priceMax) {
-            if (priceMax && priceMin && priceMax < priceMin) {
-                priceMax += priceMin;
-                priceMin = priceMax - priceMin;
-                priceMax -= priceMin;
-            }
-
-            if (priceMin) {
-                array = array.filter((item) => priceMin <= item.price);
-            }
-            if (priceMax) {
-                array = array.filter((item) => item.price <= priceMax);
-            }
-        }
-
-        return array;
-    }
-
-    onMounted(async () => {
-        await init();
+        return array
     });
+
+    onMounted(() => init());
 
     return {
         products,
@@ -92,7 +63,7 @@ const useProducts = defineStore('products', () => {
         loading,
         addProduct,
         getProduct,
-        getFilter
+        init
     }
 });
 

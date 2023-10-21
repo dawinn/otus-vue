@@ -13,11 +13,11 @@ const logout = () => {
 </script>
 
 <template>
-  <div v-if="username">
+  <div data-testid="user-profile" v-if="username">
     Пользователь: {{ username }} |
     <v-btn @click="logout">выйти</v-btn>
   </div>
-  <div v-else>
+  <div data-testid="user-profile" v-else>
     <router-link :to="{name: 'Auth'}">Войти</router-link>
   </div>
 

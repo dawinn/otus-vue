@@ -6,12 +6,15 @@ const { cartSize } = storeToRefs(useCart());
 </script>
 
 <template>
-  <div v-if="cartSize">
-    <router-link :to="{ name: 'Cart' }"><span>Позиций в корзине: {{ cartSize }}</span></router-link>
+  <div data-testid="cart-size-vidget">
+    <div v-if="cartSize">
+      <router-link :to="{ name: 'Cart' }"><span>Позиций в корзине: {{ cartSize }}</span></router-link>
+    </div>
+    <div v-else>
+      Корзина пуста
+    </div>
   </div>
-  <div v-else>
-    Корзина пуста
-  </div>
+
 
 </template>
 <style scoped>
